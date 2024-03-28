@@ -1,10 +1,10 @@
 import pygame , class_methods 
 
 
-#Creamos clase principal Game
+#Creamos clase principal Game y ahi asi en breve crear instancias
 class Game(object):
     
-    #ATRIBUTOS  ---------------------------------------------------
+    #ATRIBUTOS  ------------------------------------------------
     def __init__(self, screen):
         #Definimos elementos del juego
         self.all_sprites_list = pygame.sprite.Group()#Lista donde se agregaran todos los sprites
@@ -59,7 +59,7 @@ class Game(object):
         self.list_naves_enemigas.empty()
 
         self.player1 = class_methods.NaveEspacial(screen)
-        self.player1.rect.x = 500
+        self.player1.rect.x = 505
         self.player1.rect.y = 600
         self.all_sprites_list.add(self.player1)
 
@@ -256,12 +256,12 @@ def main():
     pygame.display.set_caption("Star Galaxy") #Nombre de la ventana
     
     #Backgraound principal
-    background_principal = pygame.image.load("PyGame/Star Galaxy 1.5 (POO)/img/zackground_principal.jpg").convert()
+    background_principal = pygame.image.load("./Star Galaxy 1.5/img/zackground_principal.jpg").convert()
     background_principal = pygame.transform.scale(background_principal, (1100, 700))#Redimensionar imagen
     
     stars = class_methods.crearPuntos() #Usamos este metodo para crear estrellas
     
-    clock = pygame.time.Clock()
+    clock = pygame.time.Clock()  
 
     game = Game(screen) #Instancia de Game
     
