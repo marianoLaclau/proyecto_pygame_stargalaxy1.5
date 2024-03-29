@@ -331,7 +331,7 @@ def main():
             #Ejecutamos la logica , y guardamos colisiones en una lista para poder dibujarlas luego
             lista_colisiones = game.run_logic(screen)
 
-            #Hacemos los dibujos en la pantalla y pasamos como argumento las colisiones
+            #Hacemos los dibujos en la pantalla y pasamos como argumento las colisiones.......
             game.display_frame(screen,lista_colisiones) 
             
             #Actuaizamos la pantalla
