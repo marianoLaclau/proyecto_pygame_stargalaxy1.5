@@ -1,4 +1,10 @@
 import pygame , class_methods 
+import os
+
+#Funcion para cargar assets de la raiz del proyecto
+def get_asset_path(*path_parts):
+    project_root = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(project_root, *path_parts)
 
 
 #Creamos clase principal Game y ahi asi en breve crear instancias
@@ -256,7 +262,7 @@ def main():
     pygame.display.set_caption("Star Galaxy") #Nombre de la ventana
     
     #Backgraound principal
-    background_principal = pygame.image.load("./Star Galaxy 1.5/img/zackground_principal.jpg").convert()
+    background_principal = pygame.image.load(get_asset_path('img', 'zackground_principal.jpg')).convert()
     background_principal = pygame.transform.scale(background_principal, (1100, 700))#Redimensionar imagen
     
     stars = class_methods.crearPuntos() #Usamos este metodo para crear estrellas

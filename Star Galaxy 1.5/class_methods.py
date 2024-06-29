@@ -1,5 +1,10 @@
 import pygame , random ,time
+import os
 
+#Funcion para cargar assets de la raiz del proyecto
+def get_asset_path(*path_parts):
+    project_root = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(project_root, *path_parts)
 
 #Definimos Valores constantes ----------------------------------------
 
@@ -22,7 +27,7 @@ BLUE = (0,0,255)
 class NaveEspacial(pygame.sprite.Sprite) :
     def __init__(self,screen):
         super().__init__()
-        self.image = pygame.image.load("./Star Galaxy 1.5/img/znave_1_player.png").convert()
+        self.image = pygame.image.load(get_asset_path('img', 'znave_1_player.png')).convert()
         self.image = pygame.transform.scale(self.image,(70,90)) #Redimensionamos la imagen
         self.image.set_colorkey(BLACK) #Quitamos el contorno negro
         self.rect = self.image.get_rect() #Obtenemos posicion
@@ -35,7 +40,11 @@ class NaveEspacial(pygame.sprite.Sprite) :
         
         
         #Propulsores , cargamos 3 imagenes para generar efecto de movimiento
-        self.images = ["./Star Galaxy 1.5/img/propulsores.png","./Star Galaxy 1.5/img/propulsores2.png","./Star Galaxy 1.5/img/propulsores3.png"]
+        self.images = [
+            get_asset_path('img', 'propulsores.png'),
+            get_asset_path('img', 'propulsores2.png'),
+            get_asset_path('img', 'propulsores3.png')
+]       
         self.images = [pygame.image.load(nombre_archivo) for nombre_archivo in self.images]
         self.index_image = 0
         #Redimensionamos y quitamos contorno negro individualmente 
@@ -82,15 +91,15 @@ class NaveEspacial(pygame.sprite.Sprite) :
 class Laser (pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load("./Star Galaxy 1.5/img/zlasernave.png").convert()
+        self.image = pygame.image.load(get_asset_path('img', 'zlasernave.png')).convert()
         self.image = pygame.transform.scale(self.image,(10,20))#Redimensionar imagen
         self.image.set_colorkey(BLACK) #Quita el contorno negro
         self.rect = self.image.get_rect() #Obtenemos posicion
-        self.sound = pygame.mixer.Sound("./Star Galaxy 1.5/sounds/zlaser.wav") #Efecto de sonido laser
+        self.sound = pygame.mixer.Sound(get_asset_path('sounds', 'zlaser.wav')) #Efecto de sonido laser
         self.initial_x = 0
         self.initial_y = 0
         #Agregamos imagen para explosion
-        self.explosion_laser =  pygame.image.load("./Star Galaxy 1.5/img/zexplosionlaser.png").convert()
+        self.explosion_laser =  pygame.image.load(get_asset_path('img','zexplosionlaser.png')).convert()
         self.explosion_laser = pygame.transform.scale(self.explosion_laser,(50,50))#Redimensionar imagen
         self.explosion_laser.set_colorkey(BLACK)
     
@@ -108,7 +117,7 @@ class Laser (pygame.sprite.Sprite):
 class NaveSuperEnemigo(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image =  pygame.image.load("./Star Galaxy 1.5/img/zsuperenemigo.png").convert()
+        self.image =  pygame.image.load(get_asset_path('img', 'zsuperenemigo.png')).convert()
         self.image = pygame.transform.scale(self.image,(200,200))#Redimensionar imagen
         self.image.set_colorkey(BLACK) #Quita el contorno negro
         self.speed = 3
@@ -128,11 +137,11 @@ class NaveSuperEnemigo(pygame.sprite.Sprite):
 class MisilSuperEnemigo(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pygame.image.load("./Star Galaxy 1.5/img/zlaserenemigo.png").convert()
+        self.image = pygame.image.load(get_asset_path('img', 'zlaserenemigo.png')).convert()
         self.image = pygame.transform.scale(self.image, (30, 50)) #Redimensionamos imagen
         self.image.set_colorkey(BLACK) #Quitamos contorno negro
         self.rect = self.image.get_rect() #Obtenemos posicion
-        self.sound = pygame.mixer.Sound("./Star Galaxy 1.5/sounds/zmisil.wav") #Efecto de sonido al disparar
+        self.sound = pygame.mixer.Sound(get_asset_path('sounds', 'zmisil.wav')) #Efecto de sonido al disparar
         self.tiempo_ultimo_disp = time.time() #Iniciamos timer para disparar cada 3 seg
         self.vida = 15
         self.rect.x = x
@@ -149,13 +158,13 @@ class MisilSuperEnemigo(pygame.sprite.Sprite):
 class TripleMisil(pygame.sprite.Sprite):
     def __init__(self, all_sprites_list, x, y): #Le pasamos como parametros la posicion de la nave enemiga
         super().__init__()
-        self.sound = pygame.mixer.Sound("./Star Galaxy 1.5/sounds/zmisil.wav") #Efecto sonido al disparar
+        self.sound = pygame.mixer.Sound(get_asset_path('sounds', 'zmisil.wav')) #Efecto sonido al disparar
         self.tiempo_ultimo_disp = time.time() #Iniciamos Timer para disparar cada 3 segundos
         self.all_sprites_list = all_sprites_list  #Agrega la referencia al grupo de sprites
         self.misiles = pygame.sprite.Group()  #Grupo para contener los misiles
         self.rect = pygame.Rect(x, y, 1,1)  #Crea un rectángulo ficticio para la posición inicial
         #Agregamos imagen para explosion
-        self.explosion_misil =  pygame.image.load("./Star Galaxy 1.5/img/zexplosionlaser.png").convert()
+        self.explosion_misil =  pygame.image.load(get_asset_path('img','zexplosionlaser.png')).convert()
         self.explosion_misil = pygame.transform.scale(self.explosion_misil,(50,50))#Redimensionar imagen
         self.explosion_misil.set_colorkey(BLACK)
         
@@ -211,18 +220,18 @@ def moverPuntos(coor_list,screen):
 class NavesEnemigas(pygame.sprite.Sprite):
         def __init__(self):
             super().__init__()
-            self.image =  pygame.image.load("./Star Galaxy 1.5/img/zenemigo.png").convert()
+            self.image =  pygame.image.load(get_asset_path('img', 'zenemigo.png')).convert()
             self.image = pygame.transform.scale(self.image,(50,50))
             self.image.set_colorkey(BLACK) 
             self.rect = self.image.get_rect() #Obtenemos posicion
             self.vidas = 5
             #Agregamos imagen para explosion
-            self.explosion =  pygame.image.load("./Star Galaxy 1.5/img/zexplosionlaser.png").convert()
+            self.explosion =  pygame.image.load(get_asset_path('img','zexplosionlaser.png')).convert()
             self.explosion = pygame.transform.scale(self.explosion,(50,50))#Redimensionar imagen
             self.explosion.set_colorkey(BLACK)
             
             #Sonido para impacto con player           
-            self.sound = pygame.mixer.Sound("./Star Galaxy 1.5/sounds/zimpacto.wav") #Efecto de sonido laser
+            self.sound = pygame.mixer.Sound(get_asset_path('sounds', 'zimpacto.wav'))#Efecto de sonido laser
 
             
             #Velocidad a la que se movera el objeto "Nave enemigo"
@@ -246,17 +255,17 @@ class NavesEnemigas(pygame.sprite.Sprite):
 class NavesEnemigas2(pygame.sprite.Sprite):
         def __init__(self):
             super().__init__()
-            self.image =  pygame.image.load("./Star Galaxy 1.5/img/zenemigo2.png").convert()
+            self.image =  pygame.image.load(get_asset_path('img', 'zenemigo2.png')).convert()
             self.image = pygame.transform.scale(self.image,(50,50))
             self.image.set_colorkey(BLACK) 
             self.rect = self.image.get_rect() #Obtenemos posicion
             self.vidas = 0
             #Agregamos imagen para explosion
-            self.explosion =  pygame.image.load("./Star Galaxy 1.5/img/zexplosionlaser.png").convert()
+            self.explosion =  pygame.image.load(get_asset_path('img','zexplosionlaser.png')).convert()
             self.explosion = pygame.transform.scale(self.explosion,(50,50))#Redimensionar imagen
             self.explosion.set_colorkey(BLACK)
             #Sonido para contacto con player           
-            self.sound = pygame.mixer.Sound("./Star Galaxy 1.5/sounds/zimpacto.wav") #Efecto de sonido laser
+            self.sound = pygame.mixer.Sound(get_asset_path('sounds', 'zimpacto.wav'))#Efecto de sonido laser
 
             
             #Velocidad a la que se movera el objeto "Nave enemigo"
@@ -280,12 +289,12 @@ class NavesEnemigas2(pygame.sprite.Sprite):
 #Explosion triple final para naves
 class ExplosionFinal():
     def __init__(self,screen):
-        self.image = pygame.image.load("./Star Galaxy 1.5/img/zsuperexplosion.png").convert()
+        self.image = pygame.image.load(get_asset_path('img', 'zsuperexplosion.png')).convert()
         self.image = pygame.transform.scale(self.image,(100,100))#Redimensionar imagen
         self.image.set_colorkey(BLACK)
         # Sonido explosion + sonido segun corresponda (win , lost)
-        self.sound_win = pygame.mixer.Sound("./Star Galaxy 1.5/sounds/zwin.wav") #Efecto de sonido laser
-        self.sound_lost = pygame.mixer.Sound("./Star Galaxy 1.5/sounds/zlost.wav") #Efecto de sonido laser
+        self.sound_win = pygame.mixer.Sound(get_asset_path('sounds', 'zwin.wav')) #Efecto de sonido laser
+        self.sound_lost = pygame.mixer.Sound(get_asset_path('sounds', 'zlost.wav')) #Efecto de sonido laser
         
         self.screen = screen
         self.rect = self.image.get_rect() #Obtenemos posicion
@@ -301,7 +310,7 @@ class ExplosionFinal():
 
 class MenuPrincipal():
     def __init__(self,screen):
-        self.background = pygame.image.load("./Star Galaxy 1.5/img/zstart.jpg").convert()
+        self.background = pygame.image.load(get_asset_path('img', 'zstart.jpg')).convert()
         self.background = pygame.transform.scale(self.background, (WIDTH_SCREEN, HEIGHT_SCREEN))
         self.screen = screen
         #Sentencias para modificar el estado del objeto
@@ -327,7 +336,7 @@ class MenuPrincipal():
         
 class MenuLost():
     def __init__(self,screen):
-        self.background = pygame.image.load("./Star Galaxy 1.5/img/zgameover.jpg").convert()
+        self.background =  pygame.image.load(get_asset_path('img', 'zgameover.jpg')).convert()
         self.background = pygame.transform.scale(self.background, (WIDTH_SCREEN, HEIGHT_SCREEN))
         self.screen = screen
         #Sentencias para modificar el estado del menu
@@ -357,7 +366,7 @@ class MenuLost():
                             
 class MenuWin():
     def __init__(self,screen):
-        self.background = pygame.image.load("./Star Galaxy 1.5/img/zwin.jpg").convert()
+        self.background = pygame.image.load(get_asset_path('img', 'zwin.jpg')).convert()
         self.background = pygame.transform.scale(self.background, (WIDTH_SCREEN, HEIGHT_SCREEN))
         self.screen = screen
         #Sentencias para modificar el estado del menu
